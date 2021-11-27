@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import oauth.demoproject.domain.dmainobject.UserDomain;
 import oauth.demoproject.domain.repository.UserRepository;
@@ -15,6 +16,7 @@ import oauth.demoproject.infra.entity.UserEntity;
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
+    @NonNull
     private final UserJpaRepository userJpaRepository;
 
     @Override

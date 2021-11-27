@@ -14,5 +14,7 @@ spring:
     driverClassName: oracle.jdbc.driver.OracleDriver
     
 logging.level:
+  root: INFO
+  oauth.demoproject: INFO
   org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
     
