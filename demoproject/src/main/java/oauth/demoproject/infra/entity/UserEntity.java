@@ -37,11 +37,11 @@ public class UserEntity {
                 .build();
     }
 
-    public static UserDomain toDomain(UserEntity entity) {
+    public UserDomain toDomain() {
         return UserDomain.builder()
-                .userId(entity.getUserId())
-                .name(entity.getName())
-                .age(entity.getAge())
+                .userId(this.getUserId())
+                .name(this.getName())
+                .age(this.getAge())
                 .build();
     }
 }

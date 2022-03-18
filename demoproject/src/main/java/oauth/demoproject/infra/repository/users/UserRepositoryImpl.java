@@ -32,4 +32,9 @@ public class UserRepositoryImpl implements UserRepository {
                 .map(UserEntity::toDomain).collect(Collectors.toList());
     }
 
+    @Override
+    public Integer findMax() {
+        return userJpaRepository.findMax();
+    }
+
 }

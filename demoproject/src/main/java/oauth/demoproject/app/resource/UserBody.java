@@ -11,15 +11,15 @@ import lombok.Data;
 @Data
 public class UserBody {
 
-    @Min(value = 1, message = "{UserBody.userId.min}")
-    @Max(value = 3, message = "{UserBody.userId.max}")
-    @NotNull(message = "{UserBody.userId.blank}")
+    @Min(value = 1)
+    @Max(value = 3)
+    @NotNull
     private Integer userId;
 
-    @Size(min = 1, max = 6, message = "{UserBody.name.size}")
-    @NotBlank(message = "{UserBody.name.blank}")
+    @Size(min = 1, max = 6)
+    @NotBlank
     private String name;
 
-    @NotNull(message = "{UserBody.age.blank}")
+    @NotNull
     private Integer age;
 }

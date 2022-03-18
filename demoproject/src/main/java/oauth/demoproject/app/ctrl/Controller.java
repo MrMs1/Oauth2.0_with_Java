@@ -32,32 +32,39 @@ import oauth.demoproject.domain.service.UserService;
 @RequiredArgsConstructor
 public class Controller {
 
-    @NonNull
-    UserService userService;
+	@NonNull
+	UserService userService;
 
-    @NonNull
-    UserDataService userDataService;
+	@NonNull
+	UserDataService userDataService;
 
-    @PostMapping("/users")
-    @ResponseStatus(HttpStatus.OK)
-    public List<UserDomain> users(@RequestBody @Valid List<UserBody> userBodyList) {
+	@PostMapping("/users")
+	@ResponseStatus(HttpStatus.OK)
+	public List<UserDomain> users(@RequestBody @Valid List<UserBody> userBodyList) {
 
-        List<Integer> searchList = userBodyList.stream().map(UserBody::getUserId).collect(Collectors.toList());
+		List<Integer> searchList = userBodyList.stream().map(UserBody::getUserId).collect(Collectors.toList());
 
-        return this.userService.findUser(searchList);
-    }
+		return this.userService.findUser(searchList);
+	}
 
-    @GetMapping("/userdata")
-    @ResponseStatus(HttpStatus.OK)
-    public List<UserDataDomain> userdata(@RequestBody @Valid @NotNull @RequestParam("offset") Integer offset,
-            @RequestParam("limit") @NotNull(message = "{validated.blank}") @Digits(integer = 3, fraction = 0) @Max(value = 100, message = "{UserData.limit.max}") Integer limit) {
-        return this.userDataService.findUserData(offset, limit);
-    }
+	@GetMapping("/userdata")
+	@ResponseStatus(HttpStatus.OK)
+	public List<UserDataDomain> userdata(@RequestParam("offset") @NotNull Integer offset,
+			@RequestParam("limit") @NotNull @Digits(integer = 3, fraction = 0) @Max(value = 100) Integer limit) {
+		return this.userDataService.findUserData(offset, limit);
+	}
 
-    @GetMapping("/usersubdata")
-    @ResponseStatus(HttpStatus.OK)
-    public List<UserDataDomain> usersubdata(@RequestBody @RequestParam("offset") int offset,
-            @RequestParam("limit") int limit) {
-        return this.userDataService.findUserData(offset, limit);
-    }
+	@GetMapping("/user/max")
+	@ResponseStatus(HttpStatus.OK)
+	public Integer max() {
+		return this.userService.findMax();
+	}
+
+	@GetMapping("/usersubdata")
+	@ResponseStatus(HttpStatus.OK)
+	public List<UserDataDomain> usersubdata(@RequestBody @RequestParam("offset") int offset,
+			@RequestParam("limit") int limit) {
+		return this.userDataService.findUserData(offset, limit);
+	}
+
 }

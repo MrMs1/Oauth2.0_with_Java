@@ -1,20 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE logback>
 <configuration>
-  <include
-    resource="org/springframework/boot/logging/logback/base.xml" />
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
-  <appender name="FILE_OUT"
-    class="ch.qos.logback.core.ConsoleAppender">
-    <target>System.out</target>
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-    <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
+      <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/app.log</file><!-- ファイル名 -->
+    <append>true</append><!-- 既存のログファイルの末端から書き込むかどうか -->
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>logs/app.%d{yyyy-MM-dd}.log</fileNamePattern><!-- 過去ログのファイル名 -->
+      <maxHistory>100</maxHistory><!-- 最大保管日数 -->
+    </rollingPolicy>
+    <encoder>
+      <pattern>${FILE_LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="REQUEST_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/request.log</file>
+    <append>true</append>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>logs/request.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>100</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="RESPONSE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/response.log</file>
+    <append>true</append>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>logs/response.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>100</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
     </encoder>
   </appender>
 
   <!-- 2. アプリ側での参照名を定義 -->
-  <logger name="output.body" additivity="false">
+  <logger name="output.request.body" additivity="false">
     <level value="INFO" />
-    <appender-ref ref="FILE_OUT" />
+    <appender-ref ref="REQUEST_FILE" />
+    <appender-ref ref="CONSOLE" />
+    <appender-ref ref="FILE" />
   </logger>
 
+  <logger name="output.response.body" additivity="false">
+    <level value="INFO" />
+    <appender-ref ref="RESPONSE_FILE" />
+    <appender-ref ref="CONSOLE" />
+    <appender-ref ref="FILE" />
+  </logger>
+
+  <root level="INFO">
+    <appender-ref ref="FILE" />
+    <appender-ref ref="CONSOLE" />
+  </root>
 </configuration>

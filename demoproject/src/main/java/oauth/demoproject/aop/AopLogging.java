@@ -18,9 +18,11 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 @Component
 public class AopLogging {
 
-    private static final Logger responseLogger = LoggerFactory.getLogger("output.body");
+    private static final Logger requestLogger = LoggerFactory.getLogger("output.request.body");
+    private static final Logger responseLogger = LoggerFactory.getLogger("output.response.body");
+    private static final Logger defaultLogger = LoggerFactory.getLogger(AopLogging.class);
 
-    StringBuilder getLogFileInputSb(String methodName, String valueType) {
+    private StringBuilder getLogFileInputSb(String methodName, String valueType) {
         StringBuilder logInput = new StringBuilder();
         logInput.append("methodName: ");
         logInput.append(methodName);
@@ -48,7 +50,7 @@ public class AopLogging {
             logInput.append(String.valueOf(methodArgValues[i]));
             logInput.append("\r\n");
         }
-        responseLogger.info(logInput.toString());
+        requestLogger.info(logInput.toString());
     }
 
     @Before(value = "execution(public * oauth.demoproject.app.ctrl.*Controller.*(..)) && @annotation(org.springframework.web.bind.annotation.PostMapping)")
@@ -62,14 +64,14 @@ public class AopLogging {
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT); // jsonを整形
         try {
             logInput.append(mapper.writeValueAsString(methodArgValues[0]));
-            responseLogger.info(logInput.toString());
+            requestLogger.info(logInput.toString());
         } catch (JsonProcessingException e) {
             // TODO 自動生成された catch ブロック
             e.printStackTrace();
         }
     }
 
-    @AfterReturning(value = "execution(public * oauth.demoproject.app.ctrl.*Controller.*(..))", returning = "returnValue")
+    @AfterReturning(value = "execution(public * oauth.demoproject.app.ctrl.Controller.*(..))", returning = "returnValue")
     public void outReturnValue(JoinPoint jp, Object returnValue) {
 
         final StringBuilder logInput = getLogFileInputSb(jp.getSignature().getName(), "ResponseValue:");
@@ -85,16 +87,36 @@ public class AopLogging {
         }
     }
 
-    @AfterReturning(value = "execution(public * oauth.demoproject.app.ctrl.ResponseErrorBody.*Build(..))", returning = "returnValue")
-    public void outReturnErrValue(Object returnValue) {
+    @AfterReturning(value = "execution(public * oauth.demoproject.app.ctrl.CustomErrController.*(..))", returning = "returnValue")
+    public void outReturnErrResValue(JoinPoint jp, Object returnValue) {
         ResponseEntity<Object> entity = (ResponseEntity) returnValue;
+        final StringBuilder logInput = getLogFileInputSb(jp.getSignature().getName(), "ResponseValue:");
+
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT); // jsonを整形
+
         try {
-            String json = mapper.writeValueAsString(entity.getBody());
-            responseLogger.info(json);
+            logInput.append(mapper.writeValueAsString(entity.getBody()));
+            responseLogger.info(logInput.toString());
         } catch (JsonProcessingException e) {
             // TODO 自動生成された catch ブロック
             e.printStackTrace();
         }
     }
+
+    //    @AfterReturning(value = "execution(public * oauth.demoproject.app.ctrl.ControllerExceptionHandler.*(..))", returning = "returnValue")
+    //    public void outReturnErrResValue2(JoinPoint jp, Object returnValue) {
+    //        ResponseEntity<Object> entity = (ResponseEntity) returnValue;
+    //        final StringBuilder logInput = getLogFileInputSb(jp.getSignature().getName(), "ResponseValue:");
+    //
+    //        ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT); // jsonを整形
+    //
+    //        try {
+    //            logInput.append(mapper.writeValueAsString(entity.getBody()));
+    //            responseLogger.info(logInput.toString());
+    //        } catch (JsonProcessingException e) {
+    //            // TODO 自動生成された catch ブロック
+    //            e.printStackTrace();
+    //        }
+    //    }
+
 }

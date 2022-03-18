@@ -25,4 +25,12 @@ public class UserService {
         return this.myRepository.findAll(searchList);
     }
 
+    public Integer findMax() {
+        Integer max = this.myRepository.findMax();
+        if (max == null) {
+            max = 0;
+        }
+        return max;
+    }
+
 }

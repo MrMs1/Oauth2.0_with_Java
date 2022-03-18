@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8084
 
 spring:
   security:
@@ -12,9 +12,13 @@ spring:
     username: sys as sysdba
     password: admin
     driverClassName: oracle.jdbc.driver.OracleDriver
+
+logging.group:
+  tomcat: org.apache.catalina, org.apache.coyote, org.apache.tomcat
     
 logging.level:
-  root: INFO
-  oauth.demoproject: INFO
-  org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+#  root: INFO
+#  tomcat: WARN
+#  oauth.demoproject: INFO
+  web: trace
     

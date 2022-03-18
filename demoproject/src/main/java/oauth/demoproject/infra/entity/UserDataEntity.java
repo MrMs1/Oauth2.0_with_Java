@@ -37,11 +37,11 @@ public class UserDataEntity {
                 .build();
     }
 
-    public static UserDataDomain toDomain(UserDataEntity entity) {
+    public UserDataDomain toDomain() {
         return UserDataDomain.builder()
-                .userDataId(entity.getUserDataId())
-                .userId(entity.getUserId())
-                .userSubdataType(entity.getUserSubdataType())
+                .userDataId(this.getUserDataId())
+                .userId(this.getUserId())
+                .userSubdataType(this.getUserSubdataType())
                 .build();
     }
 }

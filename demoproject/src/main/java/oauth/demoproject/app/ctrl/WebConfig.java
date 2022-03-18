@@ -14,7 +14,7 @@ public class WebConfig {
 
         ReloadableResourceBundleMessageSource bean = new ReloadableResourceBundleMessageSource();
         //メッセージのプロパティファイル名（デフォルト）を指定します
-        bean.setBasename("classpath:ValidationMessages");
+        bean.setBasename("classpath:messages");
         //メッセージプロパティの文字コードを指定します
         bean.setDefaultEncoding("UTF-8");
         return bean;

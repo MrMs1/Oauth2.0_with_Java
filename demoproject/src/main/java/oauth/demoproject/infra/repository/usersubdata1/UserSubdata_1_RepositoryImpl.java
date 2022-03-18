@@ -11,5 +11,5 @@ import oauth.demoproject.domain.repository.UserSubdata_1_Repository;
 public class UserSubdata_1_RepositoryImpl implements UserSubdata_1_Repository {
 
     @NonNull
-    private final UserSubdata_1_JpaRepository userSubdata_1_JpaRepository;
+    private final UserSubdata_1_JpaRepository jpaRepository;
 }

@@ -14,6 +14,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>demoproject</name>
   <description>Demo project for Spring Boot</description>
+  <packaging>war</packaging>
   <properties>
     <java.version>11</java.version>
   </properties>
@@ -86,7 +87,7 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-
+    
   </dependencies>
 
   <build>
