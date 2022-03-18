@@ -20,7 +20,8 @@ public class AopLogging {
 
     private static final Logger requestLogger = LoggerFactory.getLogger("output.request.body");
     private static final Logger responseLogger = LoggerFactory.getLogger("output.response.body");
-    private static final Logger defaultLogger = LoggerFactory.getLogger(AopLogging.class);
+    // private static final Logger defaultLogger =
+    // LoggerFactory.getLogger(AopLogging.class);
 
     private StringBuilder getLogFileInputSb(String methodName, String valueType) {
         StringBuilder logInput = new StringBuilder();
@@ -89,7 +90,7 @@ public class AopLogging {
 
     @AfterReturning(value = "execution(public * oauth.demoproject.app.ctrl.CustomErrController.*(..))", returning = "returnValue")
     public void outReturnErrResValue(JoinPoint jp, Object returnValue) {
-        ResponseEntity<Object> entity = (ResponseEntity) returnValue;
+        ResponseEntity<?> entity = (ResponseEntity<?>) returnValue;
         final StringBuilder logInput = getLogFileInputSb(jp.getSignature().getName(), "ResponseValue:");
 
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT); // jsonを整形
@@ -103,20 +104,24 @@ public class AopLogging {
         }
     }
 
-    //    @AfterReturning(value = "execution(public * oauth.demoproject.app.ctrl.ControllerExceptionHandler.*(..))", returning = "returnValue")
-    //    public void outReturnErrResValue2(JoinPoint jp, Object returnValue) {
-    //        ResponseEntity<Object> entity = (ResponseEntity) returnValue;
-    //        final StringBuilder logInput = getLogFileInputSb(jp.getSignature().getName(), "ResponseValue:");
+    // @AfterReturning(value = "execution(public *
+    // oauth.demoproject.app.ctrl.ControllerExceptionHandler.*(..))", returning =
+    // "returnValue")
+    // public void outReturnErrResValue2(JoinPoint jp, Object returnValue) {
+    // ResponseEntity<Object> entity = (ResponseEntity) returnValue;
+    // final StringBuilder logInput = getLogFileInputSb(jp.getSignature().getName(),
+    // "ResponseValue:");
     //
-    //        ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT); // jsonを整形
+    // ObjectMapper mapper = new
+    // ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT); // jsonを整形
     //
-    //        try {
-    //            logInput.append(mapper.writeValueAsString(entity.getBody()));
-    //            responseLogger.info(logInput.toString());
-    //        } catch (JsonProcessingException e) {
-    //            // TODO 自動生成された catch ブロック
-    //            e.printStackTrace();
-    //        }
-    //    }
+    // try {
+    // logInput.append(mapper.writeValueAsString(entity.getBody()));
+    // responseLogger.info(logInput.toString());
+    // } catch (JsonProcessingException e) {
+    // // TODO 自動生成された catch ブロック
+    // e.printStackTrace();
+    // }
+    // }
 
 }
