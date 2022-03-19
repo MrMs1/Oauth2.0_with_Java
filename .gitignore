@@ -11,9 +11,12 @@
 
 # Maven
 target
+mvnw*
+.mvn
 
 # VScode
 .vscode/settings.json
+.apt*
 
 #log
 *.log
