@@ -20,8 +20,7 @@ public class AopLogging {
 
     private static final Logger requestLogger = LoggerFactory.getLogger("output.request.body");
     private static final Logger responseLogger = LoggerFactory.getLogger("output.response.body");
-    // private static final Logger defaultLogger =
-    // LoggerFactory.getLogger(AopLogging.class);
+    private static final Logger defaultLogger = LoggerFactory.getLogger(AopLogging.class);
 
     private StringBuilder getLogFileInputSb(String methodName, String valueType) {
         StringBuilder logInput = new StringBuilder();
@@ -67,8 +66,7 @@ public class AopLogging {
             logInput.append(mapper.writeValueAsString(methodArgValues[0]));
             requestLogger.info(logInput.toString());
         } catch (JsonProcessingException e) {
-            // TODO 自動生成された catch ブロック
-            e.printStackTrace();
+            defaultLogger.error(e.getMessage());
         }
     }
 
@@ -83,8 +81,7 @@ public class AopLogging {
             logInput.append(mapper.writeValueAsString(returnValue));
             responseLogger.info(logInput.toString());
         } catch (JsonProcessingException e) {
-            // TODO 自動生成された catch ブロック
-            e.printStackTrace();
+            defaultLogger.error(e.getMessage());
         }
     }
 
@@ -99,8 +96,7 @@ public class AopLogging {
             logInput.append(mapper.writeValueAsString(entity.getBody()));
             responseLogger.info(logInput.toString());
         } catch (JsonProcessingException e) {
-            // TODO 自動生成された catch ブロック
-            e.printStackTrace();
+            defaultLogger.error(e.getMessage());
         }
     }
 
@@ -119,8 +115,7 @@ public class AopLogging {
     // logInput.append(mapper.writeValueAsString(entity.getBody()));
     // responseLogger.info(logInput.toString());
     // } catch (JsonProcessingException e) {
-    // // TODO 自動生成された catch ブロック
-    // e.printStackTrace();
+    // //defaultLogger.error(e.getMessage());;
     // }
     // }
 

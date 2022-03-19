@@ -21,7 +21,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<UserDomain> findAll(List<Integer> targets) {
-        // TODO 自動生成されたメソッド・スタブ
+
         final Specification<UserEntity> zero = Specification.where((Specification<UserEntity>) null);
 
         final Specification<UserEntity> spec = targets.stream()
